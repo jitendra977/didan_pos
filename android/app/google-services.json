@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "767841188902",
+    "project_id": "nishana-pos",
+    "storage_bucket": "nishana-pos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767841188902:android:84fbec1d98246371ddfae7",
+        "android_client_info": {
+          "package_name": "com.example.didan_pos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767841188902-cr5362ppa1tsljsahat7dp8eu7ekqg70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApUnsRgc1i1CiXNgkmaeA03WDW9Mml9P0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767841188902-cr5362ppa1tsljsahat7dp8eu7ekqg70.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

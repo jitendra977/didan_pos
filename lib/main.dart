@@ -5,6 +5,8 @@ import 'package:didan_pos/utils/routes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (context) => MyHomePage(),
           MyRouter.loginRoute: (context) => LoginPage(),
-          // MyRouter.cartPage: (context) => CartPage(resTables: ),
+          // MyRouter.cartPage: (context) => CartPage(),
           MyRouter.homeRoute: (context) => MyHomePage(),
           MyRouter.orderRoute: (context) => OrderPage(),
         });

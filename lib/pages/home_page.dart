@@ -1,6 +1,8 @@
 import 'package:didan_pos/utils/routes.dart';
 import 'package:flutter/material.dart';
 
+import 'menus.dart';
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
     super.key,
@@ -80,6 +82,12 @@ class MainMenuHomePage extends StatelessWidget {
         )),
         Card(
             child: ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const MainMenu()),
+            );
+          },
           leading: Icon(Icons.apps),
           title: Text("Menu"),
         )),
