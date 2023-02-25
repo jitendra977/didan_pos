@@ -57,7 +57,7 @@ class MainMenuHomePage extends StatelessWidget {
               MaterialPageRoute(builder: (context) => MenusList()),
             );
           },
-          leading: Icon(Icons.list_alt),
+          leading: Icon(Icons.menu_book),
           title: Text("Menu"),
         )),
         Card(
@@ -67,7 +67,7 @@ class MainMenuHomePage extends StatelessWidget {
         )),
         Card(
             child: ListTile(
-          leading: Icon(Icons.list_alt),
+          leading: Icon(Icons.ramen_dining),
           title: Text("Ready order description"),
         )),
       ],

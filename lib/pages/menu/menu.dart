@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MenusList());
-}
-
 class MenusList extends StatelessWidget {
   final List<Map<String, dynamic>> items = [
     {
@@ -80,26 +76,72 @@ class MenusList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Item List Example',
-      home: Scaffold(
+    return Container(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Text(
+            "+",
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
         appBar: AppBar(
-          title: Text('Item List'),
+          centerTitle: true,
+          title: Text('Menu'),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.import_export),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.filter_list),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.refresh),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.more_vert),
+            ),
+          ],
         ),
         body: ListView.builder(
           itemCount: items.length,
           itemBuilder: (BuildContext context, int index) {
             final item = items[index];
-            return ListTile(
-              title: Text(item['name']),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Type: ${item['type']}'),
-                  Text('Price: ${item['price']}'),
-                  Text('Barcode: ${item['barcode']}'),
-                  Text('Category: ${item['category']}'),
-                ],
+            return Card(
+              color: Color.fromARGB(255, 227, 246, 229),
+              child: ListTile(
+                title: Container(
+                  child: Text(
+                    item['name'],
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontSize: 18),
+                  ),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Price: ${item['price']}'),
+                    Text('Type: ${item['type']}'),
+                    Text('Category: ${item['category']}'),
+                    Text('Barcode: ${item['barcode']}'),
+                  ],
+                ),
+                trailing: Image.network(
+                  "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             );
           },
