@@ -12,28 +12,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  List<Item> _items = [];
-  
-
-  @override
-  void initState() {
-    super.initState();
-    _loadItems();
-  }
-
-  void _loadItems() {
-    for (int i = 1; i <= 50; i++) {
-      Item item = Item(
-        itemName: 'Item $i',
-        price: 10.0 * i,
-        qty: i,
-        image: 'https://example.com/images/item_$i.jpg',
-        description:
-            'This is item $i, which costs \$${10.0 * i} and has a quantity of $i.',
-      );
-      _items.add(item);
-    }
-  }
+  List<MenuItem> _items = [];
 
   @override
   Widget build(BuildContext context) {
@@ -154,14 +133,14 @@ class _CartPageState extends State<CartPage> {
                               child: Container(
                                 child: Column(children: [
                                   Text(
-                                    _items[index].itemName,
+                                    "k",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 15,
+                                        fontSize: 10,
                                         color: Colors.black54),
                                   ),
                                   Icon(Icons.lunch_dining),
-                                  Text("Rs ${_items[index].price.toString()}"),
+                                  Text(" ${_items[index].price.toString()}"),
                                 ]),
                               ),
                             );

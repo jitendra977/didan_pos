@@ -1,6 +1,4 @@
-import 'package:didan_pos/utils/routes.dart';
 import 'package:flutter/material.dart';
-
 import 'menu/menu.dart';
 
 class MainMenu extends StatefulWidget {
@@ -54,7 +52,7 @@ class MainMenuHomePage extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MenusList()),
+              MaterialPageRoute(builder: (context) => MenuList()),
             );
           },
           leading: Icon(Icons.list_alt),
