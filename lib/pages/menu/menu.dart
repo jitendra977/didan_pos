@@ -1,14 +1,40 @@
+import 'dart:convert';
+
+import 'package:didan_pos/models/items.dart';
 import 'package:didan_pos/pages/menu/add_menu_item.dart';
 import 'package:flutter/material.dart';
 
-class MenuList extends StatelessWidget {
-  final titles = ["List 1", "List 2", "List 3"];
-  final subtitles = [
-    "Here is list 1 subtitle",
-    "Here is list 2 subtitle",
-    "Here is list 3 subtitle"
-  ];
-  final icons = [Icons.ac_unit, Icons.access_alarm, Icons.access_time];
+class MenuList extends StatefulWidget {
+  @override
+  State<MenuList> createState() => _MenuListState();
+}
+
+class _MenuListState extends State<MenuList> {
+  //==========================LOAD ITEMS FROM JSON==================================
+  List<Item> items = [];
+
+  Future<void> loadJsonData() async {
+    String jsonString = await DefaultAssetBundle.of(context)
+        .loadString('assets/data/items.json');
+    List<dynamic> jsonData = jsonDecode(jsonString);
+    List<Item> itemList = [];
+
+    for (var item in jsonData) {
+      itemList.add(Item.fromJson(item));
+    }
+
+    setState(() {
+      items = itemList;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadJsonData();
+  }
+//============================================================================
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,10 +45,14 @@ class MenuList extends StatelessWidget {
             MaterialPageRoute(builder: (context) => AddItemMenu()),
           );
         },
+        child: Text(
+          "+",
+          style: TextStyle(color: Colors.white, fontSize: 50),
+        ),
       ),
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Order'),
+        title: Text('Menu Items'),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -51,16 +81,22 @@ class MenuList extends StatelessWidget {
       body: ListView.separated(
           separatorBuilder: (BuildContext context, int index) =>
               const Divider(),
-          itemCount: titles.length,
-          itemBuilder: (context, index) {
+          itemCount: items.length,
+          itemBuilder: (context, int index) {
             return Card(
                 child: ListTile(
-                    title: Text(titles[index]),
-                    subtitle: Text(subtitles[index]),
+                    title: Text(
+                      items[index].name.toString(),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(items[index].desc.toString()),
                     leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://images.unsplash.com/photo-1547721064-da6cfb341d50")),
-                    trailing: Icon(icons[index])));
+                        backgroundImage:
+                            NetworkImage(items[index].image.toString())),
+                    trailing: Text(
+                      "Rs.${items[index].price.toString()}",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )));
           }),
     );
   }

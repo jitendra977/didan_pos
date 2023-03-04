@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/items.dart';
 import '../models/rest_tables.dart';
 
 class CartPage extends StatefulWidget {
@@ -12,8 +11,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  List<MenuItem> _items = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +121,7 @@ class _CartPageState extends State<CartPage> {
                       child: Container(
                         color: Color.fromARGB(255, 171, 141, 139),
                         child: GridView.builder(
-                          itemCount: _items.length,
+                          itemCount: 5,
                           gridDelegate:
                               SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent: 100),
@@ -140,7 +137,7 @@ class _CartPageState extends State<CartPage> {
                                         color: Colors.black54),
                                   ),
                                   Icon(Icons.lunch_dining),
-                                  Text(" ${_items[index].price.toString()}"),
+                                  Text(" 44"),
                                 ]),
                               ),
                             );
