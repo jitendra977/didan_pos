@@ -83,20 +83,30 @@ class _MenuListState extends State<MenuList> {
               const Divider(),
           itemCount: items.length,
           itemBuilder: (context, int index) {
-            return Card(
-                child: ListTile(
-                    title: Text(
-                      items[index].name.toString(),
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(items[index].desc.toString()),
-                    leading: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(items[index].image.toString())),
-                    trailing: Text(
-                      "Rs.${items[index].price.toString()}",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )));
+            return Dismissible(
+                background: Container(
+                  color: Colors.green,
+                ),
+                key: ValueKey(items[index]),
+                onDismissed: (DismissDirection direction) {
+                  setState(() {
+                    items.removeAt(index);
+                  });
+                },
+                child: Card(
+                    child: ListTile(
+                        title: Text(
+                          items[index].name.toString(),
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(items[index].desc.toString()),
+                        leading: CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(items[index].image.toString())),
+                        trailing: Text(
+                          "Rs.${items[index].price.toString()}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ))));
           }),
     );
   }
