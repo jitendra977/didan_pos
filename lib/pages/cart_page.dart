@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import '../models/items.dart';
 import '../models/rest_tables.dart';
+
 
 class CartPage extends StatefulWidget {
   final ResTable resTables;
@@ -117,38 +121,79 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ]),
                     ),
-                    Expanded(
-                      child: Container(
-                        color: Color.fromARGB(255, 171, 141, 139),
-                        child: GridView.builder(
-                          itemCount: 5,
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 100),
-                          itemBuilder: (context, index) {
-                            return Card(
-                              child: Container(
-                                child: Column(children: [
-                                  Text(
-                                    "k",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 10,
-                                        color: Colors.black54),
-                                  ),
-                                  Icon(Icons.lunch_dining),
-                                  Text(" 44"),
-                                ]),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
+                    ShowItems(),
                   ],
                 )),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ShowItems extends StatefulWidget {
+  const ShowItems({
+    super.key,
+  });
+
+  @override
+  State<ShowItems> createState() => _ShowItemsState();
+}
+
+class _ShowItemsState extends State<ShowItems> {
+  List<Item> items = [];
+
+  Future<void> loadJsonData() async {
+    String jsonString = await DefaultAssetBundle.of(context)
+        .loadString('assets/data/items.json');
+    List<dynamic> jsonData = jsonDecode(jsonString);
+    List<Item> itemList = [];
+
+    for (var item in jsonData) {
+      itemList.add(Item.fromJson(item));
+    }
+
+    setState(() {
+      items = itemList;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadJsonData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        color: Color.fromARGB(255, 171, 141, 139),
+        child: GridView.builder(
+          itemCount: items.length,
+          gridDelegate:
+              SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 150),
+          itemBuilder: (context, index) {
+            return Card(
+              child: Container(
+                child: Column(children: [
+                  Text(
+                    items[index].name.toString(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                        color: Colors.black54),
+                  ),
+                  Image.network(
+                    items[index].image.toString(),
+                    height: 60,
+                  ),
+                  Text("Rs. ${items[index].price.toString()}"),
+                ]),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

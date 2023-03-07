@@ -1,57 +1,58 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void main() => runApp(const DropdownButtonApp());
 
-  static const String _title = 'Flutter Code Sample';
+class DropdownButtonApp extends StatelessWidget {
+  const DropdownButtonApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
       home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
-        body: const MyStatefulWidget(),
+        appBar: AppBar(title: const Text('DropdownButton Sample')),
+        body: const Center(
+          child: DropdownButtonExample(),
+        ),
       ),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({super.key});
+class DropdownButtonExample extends StatefulWidget {
+  const DropdownButtonExample({super.key});
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  List<int> items = List<int>.generate(100, (int index) => index);
+class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+  String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: items.length,
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      itemBuilder: (BuildContext context, int index) {
-        return Dismissible(
-          background: Container(
-            color: Colors.green,
-          ),
-          key: ValueKey<int>(items[index]),
-          onDismissed: (DismissDirection direction) {
-            setState(() {
-              items.removeAt(index);
-            });
-          },
-          child: ListTile(
-            title: Text(
-              'Item ${items[index]}',
-            ),
-          ),
-        );
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
       },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

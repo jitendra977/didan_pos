@@ -86,8 +86,15 @@ class _MenuListState extends State<MenuList> {
             return Dismissible(
                 background: Container(
                   color: Colors.green,
+                  child: Icon(
+                    Icons.delete,
+                    weight: 50,
+                    size: 25,
+                    color: Colors.white,
+                  ),
                 ),
                 key: ValueKey(items[index]),
+                direction: DismissDirection.endToStart,
                 onDismissed: (DismissDirection direction) {
                   setState(() {
                     items.removeAt(index);
