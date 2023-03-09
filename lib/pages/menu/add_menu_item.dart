@@ -9,7 +9,43 @@ const List<String> list = <String>[
   'Salad'
 ];
 
-class AddItemMenu extends StatelessWidget {
+class AddMenuItem extends StatefulWidget {
+  @override
+  _AddMenuItemState createState() => _AddMenuItemState();
+}
+
+class _AddMenuItemState extends State<AddMenuItem> {
+  String _barcode = '';
+  final _nameController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _qtyController = TextEditingController();
+  final _imageController = TextEditingController();
+  final _descController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _priceController.dispose();
+    _qtyController.dispose();
+    _imageController.dispose();
+    _descController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _scanBarcode() async {
+    String barcode = await FlutterBarcodeScanner.scanBarcode(
+      '#ff6666', // color for the scan button
+      'Cancel', // text for the cancel button
+      true, // show flash icon
+      ScanMode.DEFAULT, // scan mode
+    );
+
+    setState(() {
+      _barcode = barcode;
+    });
+  }
+
+  String dropdownValue = list.first;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,75 +65,44 @@ class AddItemMenu extends StatelessWidget {
           ),
         ],
       ),
-      body: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final _nameController = TextEditingController();
-  final _priceController = TextEditingController();
-  final _qtyController = TextEditingController();
-  final _imageController = TextEditingController();
-  final _descController = TextEditingController();
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _priceController.dispose();
-    _qtyController.dispose();
-    _imageController.dispose();
-    _descController.dispose();
-    super.dispose();
-  }
-
-  String dropdownValue = list.first;
-  final TextEditingController _controller = TextEditingController();
-  void _clearTextField() {
-    // Clear everything in the text field
-    _controller.clear();
-    // Call setState to update the UI
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          //single child scroll view scrolling ==================
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              DropdownButton(
-                value: dropdownValue,
-                icon: const Icon(Icons.arrow_downward),
-                elevation: 16,
-                onChanged: (String? value) {
-                  // This is called when the user selects an item.
-                  setState(() {
-                    dropdownValue = value!;
-                  });
-                },
-                items: list.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+              InputDecorator(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.all(5),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    value: dropdownValue,
+                    icon: const Icon(Icons.arrow_downward),
+                    elevation: 16,
+                    onChanged: (String? value) {
+                      // This is called when the user selects an item.
+                      setState(() {
+                        dropdownValue = value!;
+                      });
+                    },
+                    items: list.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ),
               TextField(
                 controller: _nameController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Enter The Name of Item',
+                  labelText: 'Item name',
                 ),
+                keyboardType: TextInputType.text,
               ),
               TextField(
                 controller: _priceController,
@@ -131,22 +136,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 maxLines: null,
               ),
               TextField(
-                controller: _controller,
                 onChanged: (value) {
-                  // Call setState to update the UI
-                  setState(() {});
+                  setState(() {
+                    _barcode = value;
+                  });
                 },
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Barcode',
-                  suffixIcon: _controller.text.isEmpty
-                      ? null // Show nothing if the text field is empty
-                      : IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: _clearTextField,
-                        ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.camera_enhance),
+                    onPressed: _scanBarcode,
+                  ),
                 ),
-                maxLines: null,
+                controller: TextEditingController(text: _barcode),
               ),
             ].insertBetweenAll(SizedBox(height: 10)),
           ),

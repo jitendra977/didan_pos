@@ -42,7 +42,7 @@ class _MenuListState extends State<MenuList> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddItemMenu()),
+            MaterialPageRoute(builder: (context) => AddMenuItem()),
           );
         },
         child: Text(
